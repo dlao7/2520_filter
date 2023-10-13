@@ -1,4 +1,5 @@
 const path = require("path");
+
 /*
  * Project: BCITstagram
  * File Name: main.js
@@ -18,15 +19,12 @@ unzip(zipFilePath, pathUnzipped)
   .then((result) => console.log(result))
   .then(() => readDir(pathUnzipped))
   .then((pngList) => {
-    allPngs = [];
-    for (const png of pngList) {
-      allPngs.push(
+    Promise.all(
+      pngList.map((png) =>
         grayScale(png, path.join(pathProcessed, path.basename(png)))
-      );
-    }
-
-    Promise.all(allPngs).then(() => {
+      )
+    ).then(() => {
       console.log("All images done.");
-    });
+    })
   })
   .catch((err) => console.log(err));

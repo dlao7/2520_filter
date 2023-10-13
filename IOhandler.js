@@ -32,11 +32,6 @@ const unzip = (pathIn, pathOut) => {
    */
 
   const zip = new AdmZip(pathIn);
-  // const extractProm = promisify(zip.extractAllToAsync);
-
-  // extractProm(pathOut, true)
-  //   .then((result) => resolve("Extraction process complete."))
-  //   .catch((err) => reject("Extraction error."))
 
   return new Promise((res, rej) => {
     zip.extractAllToAsync(pathOut, true, (err, data) => {
@@ -55,6 +50,7 @@ const unzip = (pathIn, pathOut) => {
  * @param {string} path
  * @return {promise}
  */
+
 const readDir = (dir) => {
   return new Promise((res, rej) => {
     fs.readdir(dir)
@@ -84,6 +80,7 @@ const readDir = (dir) => {
  * @param {string} pathProcessed
  * @return {promise}
  */
+
 const grayScale = (pathIn, pathOut) => {
   return new Promise((res, rej) => {
     createReadStream(pathIn)
