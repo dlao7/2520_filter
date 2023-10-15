@@ -1,7 +1,7 @@
 /*
  * Project: BCITstagram
  * File Name: IOhandler.js
- * Description: Collection of functions for files input/output related operations
+ * Description: Collection of functions for files input/output related operations.
  *
  * Created Date: 10/12/2023
  * Author: Deborah Lao
@@ -13,7 +13,6 @@ const AdmZip = require("adm-zip"),
   PNG = require("pngjs").PNG,
   path = require("path"),
   { createReadStream, createWriteStream } = require("fs");
-// { promisify } = require('util');
 
 /**
  * Description: decompress file from given pathIn, write to given pathOut
@@ -26,7 +25,7 @@ const unzip = (pathIn, pathOut) => {
   /**
    *
    * Notes: Unzipper module produced corrupt files,
-   * switched to using AdmZip's Async version of
+   * switched to using AdmZip's async version of
    * extractAllTo.
    *
    */
@@ -38,7 +37,8 @@ const unzip = (pathIn, pathOut) => {
       if (err) {
         rej("There was an error during extraction.");
       } else {
-        res("Extraction process complete.");
+        console.log("Extraction process complete.");
+        res();
       }
     });
   });
@@ -66,8 +66,9 @@ const readDir = (dir) => {
       .catch((err) => {
         if (err.code === "ENOENT") {
           rej(`The directory "${dir}" does not exist.`);
+        } else {
+          rej(err);
         }
-        rej(err);
       });
   });
 };

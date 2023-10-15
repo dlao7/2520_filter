@@ -16,15 +16,19 @@ const pathUnzipped = path.join(__dirname, "unzipped");
 const pathProcessed = path.join(__dirname, "grayscaled");
 
 unzip(zipFilePath, pathUnzipped)
-  .then((result) => console.log(result))
   .then(() => readDir(pathUnzipped))
   .then((pngList) => {
-    Promise.all(
-      pngList.map((png) =>
-        grayScale(png, path.join(pathProcessed, path.basename(png)))
+    return new Promise((res, rej) => {
+      Promise.all(
+        pngList.map((png) =>
+          grayScale(png, path.join(pathProcessed, path.basename(png)))
+        )
       )
-    ).then(() => {
-      console.log("All images done.");
-    })
+        .then(() => {
+          console.log("All images done.");
+          res();
+        })
+        .catch((err) => rej(err));
+    });
   })
   .catch((err) => console.log(err));
