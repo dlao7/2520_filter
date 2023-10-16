@@ -52,25 +52,16 @@ const unzip = (pathIn, pathOut) => {
  */
 
 const readDir = (dir) => {
-  return new Promise((res, rej) => {
-    fs.readdir(dir)
-      .then((fileNames) => {
-        pngList = [];
-        for (file of fileNames) {
-          if (path.extname(file) === ".png") {
-            pngList.push(path.join(dir, file));
-          }
+  return fs.readdir(dir)
+    .then((fileNames) => {
+      pngList = [];
+      for (file of fileNames) {
+        if (path.extname(file) === ".png") {
+          pngList.push(path.join(dir, file));
         }
-        res(pngList);
-      })
-      .catch((err) => {
-        if (err.code === "ENOENT") {
-          rej(`The directory "${dir}" does not exist.`);
-        } else {
-          rej(err);
-        }
-      });
-  });
+      }
+      return pngList;
+    })
 };
 
 /**
